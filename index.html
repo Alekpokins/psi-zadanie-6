@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styl.css">
+  <title>Frontend Mentor | Contact form</title>
+</head>
+<body>
+
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <div class="toast__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <circle cx="10" cy="10" r="9" stroke="white" stroke-width="1.5"/>
+        <path d="M6 10L8.5 12.5L14 7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="toast__content">
+      <p class="toast__title">Message Sent!</p>
+      <p class="toast__body">Thanks for completing the form. We'll be in touch soon!</p>
+    </div>
+  </div>
+
+  <main class="page">
+    <div class="card">
+      <h1 class="card__title">Contact Us</h1>
+
+      <form class="form" id="contactForm" novalidate>
+
+        <div class="form__row">
+          <div class="form__field" id="field-firstName">
+            <label class="form__label" for="firstName">
+              First Name <span class="form__required" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="form__input"
+              type="text"
+              id="firstName"
+              name="firstName"
+              autocomplete="given-name"
+              aria-required="true"
+              aria-describedby="firstName-error"
+            >
+            <span class="form__error" id="firstName-error" role="alert">This field is required</span>
+          </div>
+
+          <div class="form__field" id="field-lastName">
+            <label class="form__label" for="lastName">
+              Last Name <span class="form__required" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="form__input"
+              type="text"
+              id="lastName"
+              name="lastName"
+              autocomplete="family-name"
+              aria-required="true"
+              aria-describedby="lastName-error"
+            >
+            <span class="form__error" id="lastName-error" role="alert">This field is required</span>
+          </div>
+        </div>
+
+        <div class="form__field" id="field-email">
+          <label class="form__label" for="email">
+            Email Address <span class="form__required" aria-hidden="true">*</span>
+          </label>
+          <input
+            class="form__input"
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            aria-required="true"
+            aria-describedby="email-error"
+          >
+          <span class="form__error" id="email-error" role="alert">Please enter a valid email address</span>
+        </div>
+
+        <fieldset class="form__fieldset" id="field-queryType" aria-required="true">
+          <legend class="form__label">
+            Query Type <span class="form__required" aria-hidden="true">*</span>
+          </legend>
+          <div class="form__radio-group">
+            <label class="form__radio-label" id="radio-general">
+              <input
+                class="form__radio-input"
+                type="radio"
+                name="queryType"
+                value="general"
+                aria-describedby="queryType-error"
+              >
+              <span class="form__radio-custom" aria-hidden="true"></span>
+              General Enquiry
+            </label>
+            <label class="form__radio-label" id="radio-support">
+              <input
+                class="form__radio-input"
+                type="radio"
+                name="queryType"
+                value="support"
+                aria-describedby="queryType-error"
+              >
+              <span class="form__radio-custom" aria-hidden="true"></span>
+              Support Request
+            </label>
+          </div>
+          <span class="form__error" id="queryType-error" role="alert">Please select a query type</span>
+        </fieldset>
+
+        <div class="form__field" id="field-message">
+          <label class="form__label" for="message">
+            Message <span class="form__required" aria-hidden="true">*</span>
+          </label>
+          <textarea
+            class="form__textarea"
+            id="message"
+            name="message"
+            rows="5"
+            aria-required="true"
+            aria-describedby="message-error"
+          ></textarea>
+          <span class="form__error" id="message-error" role="alert">This field is required</span>
+        </div>
+
+        <div class="form__field form__field--consent" id="field-consent">
+          <label class="form__checkbox-label">
+            <input
+              class="form__checkbox-input"
+              type="checkbox"
+              name="consent"
+              id="consent"
+              aria-required="true"
+              aria-describedby="consent-error"
+            >
+            <span class="form__checkbox-custom" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" viewBox="0 0 10 8" fill="none" aria-hidden="true">
+                <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            I consent to being contacted by the team <span class="form__required" aria-hidden="true">*</span>
+          </label>
+          <span class="form__error" id="consent-error" role="alert">To submit this form, please consent to being contacted</span>
+        </div>
+
+        <button class="form__submit" type="submit">Submit</button>
+
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+
+    function setError(fieldId, show) {
+      const field = document.getElementById('field-' + fieldId);
+      if (!field) return;
+      const input = field.querySelector('.form__input, .form__textarea, .form__radio-input, .form__checkbox-input');
+      const error = field.querySelector('.form__error');
+      if (show) {
+        field.classList.add('form__field--error');
+        if (error) error.classList.add('form__error--visible');
+        if (input && (input.type === 'text' || input.type === 'email' || input.tagName === 'TEXTAREA')) {
+          input.setAttribute('aria-invalid', 'true');
+        }
+      } else {
+        field.classList.remove('form__field--error');
+        if (error) error.classList.remove('form__error--visible');
+        if (input) input.removeAttribute('aria-invalid');
+      }
+    }
+
+    function setRadioError(show) {
+      const fieldset = document.getElementById('field-queryType');
+      const error = document.getElementById('queryType-error');
+      if (show) {
+        fieldset.classList.add('form__field--error');
+        error.classList.add('form__error--visible');
+      } else {
+        fieldset.classList.remove('form__field--error');
+        error.classList.remove('form__error--visible');
+      }
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    form.addEventListener('focusout', (e) => {
+      const el = e.target;
+      if (el.id === 'firstName') setError('firstName', !el.value.trim());
+      if (el.id === 'lastName') setError('lastName', !el.value.trim());
+      if (el.id === 'email' && el.value) setError('email', !isValidEmail(el.value.trim()));
+      if (el.id === 'message') setError('message', !el.value.trim());
+    });
+
+    form.addEventListener('change', (e) => {
+      if (e.target.name === 'queryType') setRadioError(false);
+      if (e.target.id === 'consent') setError('consent', !e.target.checked);
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const firstName = form.querySelector('#firstName').value.trim();
+      const lastName = form.querySelector('#lastName').value.trim();
+      const email = form.querySelector('#email').value.trim();
+      const queryType = form.querySelector('input[name="queryType"]:checked');
+      const message = form.querySelector('#message').value.trim();
+      const consent = form.querySelector('#consent').checked;
+
+      let valid = true;
+
+      if (!firstName) { setError('firstName', true); valid = false; }
+      else setError('firstName', false);
+
+      if (!lastName) { setError('lastName', true); valid = false; }
+      else setError('lastName', false);
+
+      if (!email || !isValidEmail(email)) { setError('email', true); valid = false; }
+      else setError('email', false);
+
+      if (!queryType) { setRadioError(true); valid = false; }
+      else setRadioError(false);
+
+      if (!message) { setError('message', true); valid = false; }
+      else setError('message', false);
+
+      if (!consent) { setError('consent', true); valid = false; }
+      else setError('consent', false);
+
+      if (valid) {
+        toast.classList.add('toast--visible');
+        form.reset();
+        document.querySelectorAll('.form__radio-label').forEach(l => l.classList.remove('form__radio-label--selected'));
+        setTimeout(() => toast.classList.remove('toast--visible'), 5000);
+      }
+    });
+
+    form.querySelectorAll('.form__radio-input').forEach(radio => {
+      radio.addEventListener('change', () => {
+        form.querySelectorAll('.form__radio-label').forEach(l => l.classList.remove('form__radio-label--selected'));
+        if (radio.checked) radio.closest('.form__radio-label').classList.add('form__radio-label--selected');
+      });
+    });
+  </script>
+</body>
+</html>
